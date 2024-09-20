@@ -30,14 +30,79 @@ class Thief extends Character{
 }
 
 class Mage extends Character{
+    constructor(nome, pv, pAtaque, pDefesa,pm){
+        super(nome, pv, pAtaque, pDefesa);
+        this.pm = pm
+    }
+
+
+    Atacar(alvo){
+        this.pAtaque+=this.pm;
+
+        if(this.pAtaque > alvo.pDefesa){
+            const dano = this.pAtaque - alvo.pDefesa;
+            alvo.pv-=dano;
+            console.log(`O Personagem ${alvo.nome} recebeu ${dano} de Dano e está com ${alvo.pv} de vida`)
+        }else{
+            console.log(`A defesa de ${alvo.nome} é maior que seu ataque`)
+        }
+
+    }
+
+    Curar(alvo){
+        const heal = this.pm *2
+        alvo.pv += heal
+        console.log(`Cura ativada, ${alvo.nome} recebeu ${heal} de vida e agora esta com ${alvo.pv} de vida`) 
+    }
     
 }
 
+class Warrior extends Character{
+    constructor(nome, pv, pAtaque, pDefesa,escudo,posicao){
+        super(nome, pv, pAtaque, pDefesa);
+        this.escudo = escudo
+        this.posicao = posicao
+    }
 
-const Leo = new Thief('Leo', '10', '3', '5');
-const Anderson = new Character('Anderson', '10', '4', '2');
+    Atacar(alvo){
+        if(this.posicao==="ataque"){
+            if(this.pAtaque > alvo.pDefesa){
+                const dano = this.pAtaque - alvo.pDefesa;
+                alvo.pv-=dano;
+                console.log(`O Personagem ${alvo.nome} recebeu ${dano} de Dano e está com ${alvo.pv} de vida`)
+                
+            }else{
+                console.log(`A defesa de ${alvo.nome} é maior que seu ataque`)
+                
+            }
+        }else{
+            console.log("Você não está em posição de Ataque, assim não pode atacar")
+            
+        }
+    }
 
-Leo.Atacar(Anderson)
+    MudaPosition(){
+        if (this.posicao === "ataque"){
+            this.posicao = "defesa"
+            console.log("Posição foi trocada para Defesa")
+        }else{
+            this.posicao = "ataque"
+            console.log("Posição foi trocada para Ataque")
+        }   
+
+    }
+}
+
+const Leo = new Warrior('Leo', 6, 3, 5, 2, "Defesa");
+
+const Susu = new Character('Susu', 10, 4, 2);
+
+Leo.MudaPosition(Leo.posicao)
+Leo.Atacar(Susu)
+
+Leo.MudaPosition(Leo.posicao)
+Leo.Atacar(Susu)
+
 
 
 
