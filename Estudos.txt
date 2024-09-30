@@ -5,4 +5,15 @@ Repositório > É a pasta do git onde ficam os arquivos.
 Commit > Termo usado para salvar / enviar  as alterações no repositório. 
 Working Tree > Espaço de trabalho onde estão sendo feitas os acessos e alterações no git. 
 Staging> É a Area de preparação antes de Commitar. 
-Branches> São as ramificações da Main  
+Branches> São as ramificações da Main
+
+Verificando versão  
+> git –version 
+
+
+Configurando 
+> git config --global user.name "seu-nome" 
+> git config --global user.email "seu-email" 
+
+Verificar configuração 
+> git config –list 
