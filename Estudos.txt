@@ -17,3 +17,19 @@ Configurando
 
 Verificar configuração 
 > git config –list 
+
+
+Comandos básicos
+
+Git init: Inicia o git. 
+Git status: Verifica alterações de pastas e arquivos no projeto (Working tree). 
+Git add: Adciona os arquivos na área de preparação (Stage Area) 
+Git commit -m "MSG": Cria e descreve um ponto do envio.
+Git log: mostra o histórico do commits.  
+Git rm –cached: remove um ou mais arquivos da área de preparação. 
+Git restore: reverte as alterações de um arquivo para ficar de acordo com o ultimo commit. 
+Git diff: mostra as alterações entre diferentes commits, entre um commit e a working tree.  
+Git branch nome-da-branch: Cria uma nova branch. 
+Git checkout Nome-Da-Branch: Muda de branch. 
+Git checkout -b  Nome-Da-Branch: Cria uma branch e já acessa ela. 
+Git merge Nome-Da-Branch: integra as mudanças da branch  especifica na branch atual. 
