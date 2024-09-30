@@ -33,3 +33,35 @@ Git branch nome-da-branch: Cria uma nova branch.
 Git checkout Nome-Da-Branch: Muda de branch. 
 Git checkout -b  Nome-Da-Branch: Cria uma branch e já acessa ela. 
 Git merge Nome-Da-Branch: integra as mudanças da branch  especifica na branch atual. 
+
+
+Passo-a-Passo de envio 
+1- Entrar na pasta e iniciar o Git 
+> git init 
+
+2- Verificar status de envio 
+>git status 
+
+3- Preparar o envio 
+> git add . 
+
+4- Adicionando repositorio do site 
+> git remote add origin https://github.com/usuario/repositorio.git 
+
+5- Enviar para a Staging 
+> git commit -m "primeiro commit" 
+
+6- Realizar commit 
+> git push origin master 
+
+ 
+Obs- Os demais posts do mesmo projeto segue os comandos 
+> git add NomeDoArquivo 
+> git commit -m "digite sua mensagem de commit aqui" 
+> git push origin master 
+
+
+Para Repositório remoto 
+Git clone url-do-repositorio: faz uma cópia do repositório para a máquina local 
+Git push nome-do-remote nome-da-branch: Envia o commit para o repositório remoto 
+Git pull nome-do-remote nome-da-branch: sincroniza o repositório local para atualizar os arquivos   
