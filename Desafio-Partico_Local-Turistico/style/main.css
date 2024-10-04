@@ -1,8 +1,40 @@
+main {
+    width: 1120px;
+}
 .titleMain {
     margin-top: 64px;
-    margin-bottom: 64px;
+
 }
 .imgCard {
-    width: 1220px;
+    margin-top: 48px;
+    width: 1120px;
     max-height: 450px;
+}
+
+ol {
+    list-style-type:none;
+}
+ul {
+    margin-top: 20px;
+}
+
+.listas-templo > li {
+    color: var(--accent-blue) ;
+    font-weight: 700;
+}
+
+.listas-parque > li{
+    font-weight: 700;
+}
+
+.listas-parque > li:nth-child(2){
+    color: var(--accent-purple);
+}
+
+.listas-parque > li:nth-child(3){
+    color: var(--accent-pink);
+}
+
+.listas-parque > li:nth-child(4){
+    color: var(--accent-orange);
 }

@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: var(--font-family);
 }
 
 :root {
@@ -31,7 +32,7 @@
 .headline {
     font: var(--text);
     color: var(--text-headline);
-    font-weight: bold;
+    font-weight: 700;
     text-transform: uppercase;
 }
 
@@ -47,29 +48,38 @@
     padding-bottom: 30px;
     font: var(--text);
     color: var(--text-secondary);
+    font-weight: 400;
 }
 
 img {
     height: 721px;
-    width: 1220px;
+    width: 1120px;
     
     border-radius: 40px;
 }
 
+hr {
+    width: 1120px;
+    height: 0px;
+}
+
 h1 {
     font-family: var(--font-family);
-    font-size: 36px/1.5;
-    font-weight: bold;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--text-primary);
 }
 
 h2 {
     font-family: var(--font-family);
-    font-size: 32px/1.5;
-    font-weight: bold;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--text-primary);
 }
 
 h3 {
     font-family: var(--font-family);
-    font-size: 28px/1.5;
-    font-weight: bold;    
+    font-size: 28px;
+    font-weight: 700;    
+    color: var(--text-primary);
 }
