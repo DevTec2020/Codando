@@ -1,1 +1,16 @@
-08/10 - Estudos sobre css e responsividade pela rocketseat
+08/10 - Estudos sobre css e responsividade pela rocketseat.
+
+Normal >>>>
+.Class {
+    grid-auto-flow:colunm;
+    grid-auto-columns: 1fr;
+} 
+
+dentro do @media >>>
+
+.Class {
+    grid-auto-flow:colunm;
+    grid-auto-columns: 1fr;
+} 
+
+>>>> Isso garante que em desktop as colunas fiquem lado a lado e no mobile fiquem uma a baixo da outra.
