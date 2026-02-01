@@ -1,0 +1,99 @@
+this.help = "Controle de clientes";
+
+// Definindo colunas da grid
+const grid = this.grid("clientes");
+
+grid.on("defineFields", function(ev) {
+    let tab = ev.grid;
+    tab.field("iKey").label = "ID";
+    tab.field("nome", "string", 100).label = "Nome";
+    tab.field("email", "string", 100).label = "Email";
+    tab.field("vip", "boolean").label = "VIP";
+    tab.field("ativo", "boolean").label = "Ativo";
+});
+
+
+// Botão de Cadastro
+grid.button("Novo", function (bt){
+    bt.parent.process.runActivity("AbrirControleClientes", null);
+});
+
+//Botão de editar
+grid.button("Editar", function (bt){
+    const sel = bt.parent.selectedRecords;
+    //Verificando se a linha da tabela tem dado
+    if (!sel.length) return;
+
+    // Enviando o Id para a função que vai habilitar a edição
+    bt.parent.process.runActivity("AbrirControleClientes", sel[0]);
+});
+
+
+// Apresentando Grid em tela
+this.interaction("main", function (){
+    grid.write();
+});
+
+
+// Form de cadastro
+this.activity("AbrirControleClientes", function(IdCliente){
+    const dialog = new uwi.dialogs.Form(this);
+    //Aqui eu mudo o title caso tenha recebido o id no parametro
+    dialog.title = IdCliente ? "Editar Cliente" : "Cadastrar Cliente"
+
+    //Campos do form
+    dialog.addField("nome", "string").label = "Nome";
+    dialog.addField("email", "string").label = "Email";
+    dialog.addField("vip", "boolean").label = "Vip";
+    dialog.addField("ativo", "boolean").label = "Ativo";
+
+
+    //Conectando a tabela do banco 
+    const ds = classes.getCachedDataSet(-123456);
+
+
+    //Se recebeu Id de usuário na função cai aqui para editar
+    if(IdCliente){
+        ds.seek(IdCliente);
+
+        //Carregando os dados no form
+        dialog.field("nome").value = ds.str("nome");
+        dialog.field("email").value = ds.str("email");
+        dialog.field("vip").value = ds.bool("vip");
+        dialog.field("ativo").value = ds.bool("ativo");
+    }
+
+
+    // Por padrão ele cai aqui. Cadastro
+    if (dialog.show()){
+        if(!IdCliente) ds.append();
+        else ds.seek(IdCliente);
+
+        //Recebendo os dados digitados
+        ds.setField("nome", dialog.field("nome").value);
+        ds.setField("email", dialog.field("email").value);
+        ds.setField("vip", dialog.field("vip").value);
+        ds.setField("ativo", dialog.field("ativo").value);
+
+        //Gravando dados no banco
+        ds.post(); 
+    }
+});
+
+
+//Verificações antes de gravar
+grid.onBeforePost ( function(ev) {
+    const ds = ev.grid.ds;
+
+    //Validando os campos
+    if(!ds.str("nome")) throw new Error ("O Nome é Obrigatório");
+    if(!ds.str("email")) throw new Error ("O Email é obrigatório");
+
+});
+
+
+//Executa após gravar 
+grid.onAfterPost.set( function(ev) {
+    if (ev.grid.ds.bool("vip"))
+        ev.grid.process.alert("Cliente VIP Cadastrado")
+})

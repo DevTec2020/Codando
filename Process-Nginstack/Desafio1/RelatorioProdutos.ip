@@ -1,0 +1,64 @@
+this.help = "Relatório de Produtos";
+
+this.interaction("main", function () {
+  this.runActivity("filtro");
+});
+
+
+this.activity("filtro", function () {
+
+  const dialog = new uwi.dialogs.Form(this);
+  dialog.title = "Filtros do Relatório";
+
+  dialog.addField("nome", "string").label = "Nome contém";
+  dialog.addField("somenteAtivos", "boolean").label = "Somente ativos";
+
+  if (!dialog.show()) return;
+
+  this.runActivity("gerarRelatorio", {
+    nome: dialog.field("nome").value,
+    somenteAtivos: dialog.field("somenteAtivos").value
+  });
+
+});
+
+
+this.activity("gerarRelatorio", function (params) {
+
+  const ds = classes.getCachedDataSet(-123456);
+
+  let sqlFiltro = "1=1";
+
+  if (params.nome)
+    sqlFiltro += " AND iName LIKE '%" + params.nome + "%'";
+
+  if (params.somenteAtivos)
+    sqlFiltro += " AND ativo = 1";
+
+  ds.setFilter(sqlFiltro);
+  ds.open();
+
+  this.write("<h2>Relatório de Produtos</h2>");
+  this.write("<table border='1' cellspacing='0' cellpadding='5'>");
+
+  this.write("<tr>");
+  this.write("<th>ID</th>");
+  this.write("<th>Nome</th>");
+  this.write("<th>Preço</th>");
+  this.write("<th>Estoque</th>");
+  this.write("<th>Ativo</th>");
+  this.write("</tr>");
+
+  while (!ds.eof()) {
+    this.write("<tr>");
+    this.write("<td>" + ds.str("iKey") + "</td>");
+    this.write("<td>" + ds.str("iName") + "</td>");
+    this.write("<td>" + ds.float("preco").toFixed(2) + "</td>");
+    this.write("<td>" + ds.float("estoque") + "</td>");
+    this.write("<td>" + (ds.bool("ativo") ? "Sim" : "Não") + "</td>");
+    this.write("</tr>");
+    ds.next();
+  }
+
+  this.write("</table>");
+});

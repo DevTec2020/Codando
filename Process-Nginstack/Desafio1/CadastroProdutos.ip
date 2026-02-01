@@ -1,0 +1,108 @@
+this.help = "Cadastro de Produtos";
+
+/*
+ * GRID PRINCIPAL
+ */
+const grid = this.grid("produtos");
+
+grid.on("defineFields", e => {
+  const g = e.grid;
+  g.field("iKey").label = "ID";
+  g.field("iName", "string", 100).label = "Nome";
+  g.field("preco", "number").label = "Preço";
+  g.field("estoque", "number").label = "Estoque";
+  g.field("ativo", "boolean").label = "Ativo";
+});
+
+/*
+ * BOTÕES
+ */
+grid.button("Novo", bt => {
+  bt.parent.process.runActivity("abrirForm", null);
+});
+
+grid.button("Editar", bt => {
+  const sel = bt.parent.selectedRecords;
+  if (!sel.length) return;
+  bt.parent.process.runActivity("abrirForm", sel[0]);
+});
+
+/*
+ * TELA
+ */
+this.interaction("main", function () {
+  grid.write();
+});
+
+/*
+ * FORMULÁRIO
+ */
+
+// Cria os itens em tela
+this.activity("abrirForm", function (key) {
+
+  const dialog = new uwi.dialogs.Form(this);
+
+  // O title é o nome da pagina, estilo o H1. Aqui ele leva o nome de acordo com a Key.
+  // Se recebeu key ele está no modo de editar.
+  dialog.title = key ? "Editar Produto" : "Novo Produto";
+
+  dialog.addField("nome", "string").label = "Nome";
+  dialog.addField("preco", "number").label = "Preço";
+  dialog.addField("estoque", "number").label = "Estoque";
+  dialog.addField("ativo", "boolean").label = "Ativo";
+
+
+  // Se conectando com o banco
+  const ds = classes.getCachedDataSet(-123456);
+
+  // posiciona e permite editar o item com a Key respectiva
+  if (key) {
+    ds.seek(key); // Editar key
+
+    // Carrega os dados do banco para o form
+    dialog.field("nome").value = ds.str("iName");
+    dialog.field("preco").value = ds.float("preco");
+    dialog.field("estoque").value = ds.float("estoque");
+    dialog.field("ativo").value = ds.bool("ativo");
+  }
+
+  // Executa quando confirmado no form
+  if (dialog.show()) {
+
+    // Se não recebeu a key ele adiciona o valor 
+    if (!key) ds.append();
+    else ds.seek(key);
+
+    // Passa os valores digitados no forma para o data set DS
+    ds.setField("iName", dialog.field("nome").value);
+    ds.setField("preco", dialog.field("preco").value);
+    ds.setField("estoque", dialog.field("estoque").value);
+    ds.setField("ativo", dialog.field("ativo").value);
+
+    // Grava no banco
+    ds.post();
+  }
+});
+
+/*
+ * REGRAS DE NEGÓCIO
+ */
+
+// Executa antes de gravar
+grid.on("beforePost", e => {
+  const ds = e.grid.ds;
+
+  // Validações dos campos 
+  if (!ds.str("iName")) throw "Nome é obrigatório.";
+  if (ds.float("preco") < 0) throw "Preço não pode ser negativo.";
+  if (ds.float("estoque") < 0) throw "Estoque não pode ser negativo.";
+});
+
+
+// Executa depois de gravar
+grid.on("afterPost", e => {
+  const ds = e.grid.ds;
+  if (ds.float("estoque") === 0)
+    e.grid.process.alert("Produto sem estoque!");
+});
