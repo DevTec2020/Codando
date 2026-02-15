@@ -11,17 +11,11 @@ do {
                 5- Excluir vaga
                 6- Sair`)
 
+    let indiceVaga = 0
+
     switch(opcao) {
         case "1":
-            console.log(Vagas)
-            let listarVagas = ""
-            for(i=0; i<Vagas.length; i++){
-                listarVagas+= `${i} - ${Vagas[i].nomeVaga} (${Vagas[i].candidatos.length} Candidatos)\n`
-            }
-
-            listarVagas === "" ? listarVagas = "\nNenhuma Vaga Cadastrada" : listarVagas = listarVagas
-
-            alert(`Listando vagas:\n ${listarVagas}`)
+            alert(`Listando vagas:\n ${listarVagas()}`)
             break
         case "2":
             let nomeVaga = prompt("Qual o nome da vaga ?")
@@ -33,21 +27,25 @@ do {
             break
         case "3":
             let buscar = prompt("Digite o indice da vaga")
-            let candidatos=""
-            for(i=0; i< Vagas[buscar].candidatos; i++){
-                candidatos+= Vagas[buscar].candidatos[i]
-            }
 
-            candidatos === "" ? candidatos = 0 : candidatos = candidatos
-
-            alert(`Dados da Vaga:\n\n Cargo: ${Vagas[buscar].nomeVaga}\n Descrição: ${Vagas[buscar].descricao}\n Data Limite: ${Vagas[buscar].dtLimite}\n Candidatos: ${candidatos}`)
-
+            alert(buscarvaga(buscar))
+            
             break
         case "4":
-            alert("Escolhido 4")
+            indiceVaga = prompt("Digite o indice da vaga")
+
+            const INDICE = Vagas[indiceVaga]
+            if (INDICE) {
+                alert(`${cadastrarCandidato(INDICE)}`)
+            } else {
+                alert("Vaga Não encontrada, liste todas na opção 1")
+            }
             break
         case "5":
-            alert("Escolhido 5")
+            indiceVaga = prompt("Digite o indice da vaga")
+
+            excluirVaga(indiceVaga)
+
             break
         case "6":
             alert("Saindo ...")
@@ -60,7 +58,72 @@ do {
 
 
 
+// function listarVagas(){
+//     const vagasEmTexto = Vagas.reduce(function (textoFinal,))
+// }
+
+function listarVagas(){
+    let VagasEncontradas = ""
+    for(i=0; i<Vagas.length; i++){
+        VagasEncontradas+= `${i} - ${Vagas[i].nomeVaga} (${Vagas[i].candidatos.length} Candidatos)\n`
+    }
+
+    VagasEncontradas === "" ? VagasEncontradas = "\nNenhuma Vaga Cadastrada" : VagasEncontradas = VagasEncontradas
+
+    return VagasEncontradas
+}
+
 function criarVaga(nomeVaga, descricao, dtLimite){
     const novaVaga = {nomeVaga, descricao, dtLimite, candidatos:[]}
     Vagas.push(novaVaga)
+}
+
+function buscarvaga(indiceParaBuscar){
+    let nomeCandidatos=""
+    const INDICE = Vagas[indiceParaBuscar]
+
+    if(INDICE){
+        for(i=0; i< INDICE.candidatos.length; i++){
+            nomeCandidatos+= `${INDICE.candidatos[i]}\n`
+        }
+    
+        let qtdCandidatos= INDICE.candidatos.length
+    
+        return(` 
+        Cargo: ${INDICE.nomeVaga} 
+        Descrição: ${INDICE.descricao} 
+        Data Limite: ${INDICE.dtLimite}
+        Qtd de Candidatos: ${qtdCandidatos}
+        Nome dos Candidatos:\n ${nomeCandidatos}
+        `)
+    } else {
+        return("Vaga Não encontrada, liste todas na opção 1")
+    }
+
+}
+
+function cadastrarCandidato(INDICE){
+    
+    let nomeCandidato = prompt("Digite o nome do candidato")
+
+    confirm(`Deseja cadastrar o candidado (${nomeCandidato}) na Vaga (${INDICE.nomeVaga}) ?`)
+
+    INDICE.candidatos.push(nomeCandidato)
+
+    return("Candidato cadastrado")
+}
+
+function excluirVaga(indiceVaga){
+    const INDICE = Vagas[indiceVaga]
+    if (INDICE) {
+        let confirmaExcluir = confirm(`Deseja Excluir essa vaga ?\n ${buscarvaga(indiceVaga)}`)
+
+        if (confirmaExcluir){
+                Vagas.splice(indiceVaga,1)
+        }
+            
+        return alert(`Vaga excluída`)
+    }  else {
+        alert("Vaga Não encontrada, liste todas na opção 1")
+    }
 }
