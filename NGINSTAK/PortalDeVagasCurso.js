@@ -89,3 +89,36 @@ function exibirMenu(){
 
     return opcao
 }
+
+
+function executar(){
+    let opcao = ""
+
+    do {
+        opcao = exibirMenu()
+
+        switch(opcao) {
+            case "1":
+                listarVagas()
+                break
+            case "2":
+                novaVaga()
+                break
+            case "3":
+                exibirVaga()
+                break
+            case "4":
+                inscreverCandidato()
+                break
+            case "5":
+                excluirVaga()
+                break
+            case "6":
+                alert("Saindo ...")
+                break
+            default:
+                alert("Opção invalida")
+                break
+        }
+    } while(opcao !== "6")
+}
