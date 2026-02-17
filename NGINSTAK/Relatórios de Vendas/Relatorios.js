@@ -69,5 +69,18 @@ const agrupamentoPorStatus = vendas.reduce((acumulador, venda) => {
 },{})
 
 
+// Eu quero saber o valor contido nas compras agrupadas por status.
+const somaValoresEmStatus = vendas.reduce((acumulador, venda) => {
+    const chave = venda.status
 
-console.log(agrupamentoPorStatus)
+    if(!acumulador[chave]){
+        acumulador[chave] = 0
+    }
+
+    acumulador[chave] += venda.preco
+    
+    return acumulador
+
+},{})
+
+console.log(somaValoresEmStatus)
