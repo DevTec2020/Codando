@@ -40,4 +40,20 @@ function buscarVendaPorId(idBuscado) {
 }
 
 
-console.log(resumoDeVendas)
+// Eu quero saber as compras agrupadas por cada cliente.
+const agruparVendasPorCliente  = vendas.reduce((acumulador, venda) => {
+    const chave = venda.cliente;
+
+    if(!acumulador[chave]){
+        acumulador[chave] = []
+    }
+
+    acumulador[chave].push(venda)
+
+    return acumulador
+
+},{})
+
+
+
+console.log(agruparVendasPorCliente)
