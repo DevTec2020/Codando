@@ -55,5 +55,19 @@ const agruparVendasPorCliente  = vendas.reduce((acumulador, venda) => {
 },{})
 
 
+// Eu quero saber as compras agrupadas por status.
+const agrupamentoPorStatus = vendas.reduce((acumulador, venda) => {
+    const chave =  venda.status
+    
+    if(!acumulador[chave]){
+        acumulador[chave] = []
+    }
 
-console.log(agruparVendasPorCliente)
+    acumulador[chave].push(venda)
+
+    return acumulador
+},{})
+
+
+
+console.log(agrupamentoPorStatus)
